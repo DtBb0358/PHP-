@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>许愿墙</title>
+    <link rel=stylesheet href="http://imaboy.gitee.io/invoked/xyq/style.css">
+    <link rel="shortcut icon" href="http://imaboy.gitee.io/universal-ico/favicon.ico" >
+  </head>
+  <body>
+    <div class="top">
+      <div class="container"><h1><a href="index.php">许愿墙</a></h1></div>
+    </div>
+    <div class="container note">
+      <div class="note-top"><div class="note-top-add">我要许愿</div></div>
+      <div class="note-box">
+        <!-- 源码地址https://gitee.com/imaboy/wishing-wall -->
+        <?php foreach($data as $v): ?>
+          <div class="note-list note-list-<?=$v['color']?>">
+            <div class="note-list-action">
+              <a class="note-list-edit" href="./index.php?action=edit&id=<?=$v['id']?>&page=<?=$page?>" title="修改">✎</a>
+              <a class="note-list-delete" href="./index.php?action=delete&id=<?=$v['id']?>&page=<?=$page?>" title="删除">×</a>
+            </div>
+            <ul class="note-list-box">
+              <li class="note-list-name">FORM: <span><?=htmlspecialchars($v['name'])?></span></li>
+              <li class="note-list-content"><?=htmlspecialchars($v['content'])?></li>
+              <li class="note-list-date">(<?=format_date($v['time'])?>前 <?=date('H:i', $v['time'])?>)</li>
+            </ul>
+          </div>
+        <?php endforeach; ?>
+      </div>
+       <?php require './view/common/add.html'; ?>
+      <?php if($id): require './view/common/' . ($checked ? 'edit' : 'password') . '.html'; endif; ?>
+      <div class="note-page">
+        <?=page_html('./index.php?page=', $total, $page, $size)?>
+      </div>
+    </div>
+    <script src="http://imaboy.gitee.io/invoked/xyq/jquery-1.12.4.min.js"></script>
+        <script src="http://imaboy.gitee.io/invoked/xyq/common.js"></script>
+  </body>
+</html>
