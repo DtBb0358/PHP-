@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * 接收输入的函数
+ * @param array $method 输入的数组（可用字符串get、post来表示）
+ * @param string $name 从数组中取出的变量名
+ * @param string $type 表示类型的字符串
+ * @param mixed $default 变量不存在时使用的默认值
+ * @return mixed 返回的结果
+ */
 function input($method, $name, $type = 's', $default = '')
 {
     switch ($method) {
@@ -14,6 +23,12 @@ function input($method, $name, $type = 's', $default = '')
         default: trigger_error('不存在的过滤类型“' . $type . '”');
     }
 }
+
+/**
+ * 格式化日期
+ * @param type $time 给定时间戳
+ * @return string 从给定时间到现在经过了多长时间（天/小时/分钟/秒）
+ */
 function format_date($time)
 {
     $diff = time() - $time;
@@ -26,12 +41,20 @@ function format_date($time)
     }
     return '0.5秒';
 }
-//源码地址https://gitee.com/imaboy/wishing-wall
+
+/**
+ * 生成分页导航HTML
+ * @param string $url 链接地址
+ * @param int $total 总记录数
+ * @param init $page 当前页码值
+ * @param int $size 每页显示的条数
+ * @return string 生成的HTML结果
+ */
 function page_html($url, $total, $page, $size)
 {
-  
+    // 计算总页数
     $maxpage = max(ceil($total / $size), 1);
- 
+    // 如果不足2页，则不显示分页导航
     if ($maxpage <= 1) {
         return '';
     }
@@ -49,11 +72,16 @@ function page_html($url, $total, $page, $size)
         $next = '<a href="' . $url . ($page + 1) . '">下一页</a>';
         $last = "<a href=\"{$url}{$maxpage}\">尾页</a>";
     }
-   
+    // 组合最终样式
     return "<p>当前位于：$page/$maxpage</p>$first $prev $next $last";
 }
 
-
+/**
+ * 获取SQL中的分页部分
+ * @param int $page 当前页码值
+ * @param int $size 每页显示的条数
+ * @return string 拼接后的结果
+ */
 function page_sql($page, $size)
 {
     return ($page - 1) * $size . ',' . $size;
